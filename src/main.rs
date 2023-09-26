@@ -11,24 +11,27 @@ pub enum ConfigErr {
     InvalidConfig(String),
 }
 
-/// Cargador de configuración
-///
-/// Cargue el archivo de configuración y devuelva un resultado
-/// que contenga el valor o el error de análisis
-pub fn load_config_json() -> Result<TuringMachine, ConfigErr> {
+pub fn validate_args() {
     let _matches = Command::new("Turing")
         .arg(Arg::new("jsonfile")
             .required(true)
             .help("json description of the machine")
             .index(1))
-        /*.arg(Arg::new("input")
+        .arg(Arg::new("input")
             .required(true)
             .help("input of the machine")
-            .index(2))*/
+            .index(2))
         .get_matches();
+}
 
+/// Cargador de configuración
+///
+/// Cargue el archivo de configuración y devuelva un resultado
+/// que contenga el valor o el error de análisis
+pub fn load_config_json() -> Result<TuringMachine, ConfigErr> {
+    validate_args();
     let env: Vec<String> = std::env::args().collect();
-    match env.len().cmp(&2) {
+    match env.len().cmp(&3) {
         Ordering::Greater => return Err(ConfigErr::TooMuchArgument),
         Ordering::Less => return Err(ConfigErr::MissingArgument),
         _ => {}

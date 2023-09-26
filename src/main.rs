@@ -2,6 +2,7 @@ mod parse;
 
 use parse::TuringMachine;
 use core::cmp::Ordering;
+use clap::{Command, Arg};
 
 #[derive(Debug)]
 pub enum ConfigErr {
@@ -15,6 +16,17 @@ pub enum ConfigErr {
 /// Cargue el archivo de configuración y devuelva un resultado
 /// que contenga el valor o el error de análisis
 pub fn load_config_json() -> Result<TuringMachine, ConfigErr> {
+    let _matches = Command::new("Turing")
+        .arg(Arg::new("jsonfile")
+            .required(true)
+            .help("json description of the machine")
+            .index(1))
+        /*.arg(Arg::new("input")
+            .required(true)
+            .help("input of the machine")
+            .index(2))*/
+        .get_matches();
+
     let env: Vec<String> = std::env::args().collect();
     match env.len().cmp(&2) {
         Ordering::Greater => return Err(ConfigErr::TooMuchArgument),

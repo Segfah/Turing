@@ -101,11 +101,11 @@ impl TuringInterpret {
             else { &self.band[self.offset+1..self.offset + 1 + rpadding]}
         };
         print!("[");
-        print!("{:.<padding$}", "", padding=lpadding - left.len());
+        print!("{}", self.config.blank.to_string().repeat(lpadding - left.len()));
         left.iter().enumerate().for_each(|elem| print!("{}", elem.1));
         print!("{}", format!("{}", self.band[self.offset]).red());
         right.iter().enumerate().for_each(|elem| print!("{}", elem.1));
-        print!("{:.>padding$}", "", padding=rpadding - right.len());
+        print!("{}", self.config.blank.to_string().repeat(rpadding - right.len()));
         print!("] ");
     }
 

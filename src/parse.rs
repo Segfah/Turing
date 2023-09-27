@@ -78,6 +78,9 @@ impl fmt::Display for TuringMachine {
                                     .map(format_transition)
                                     .collect::<Vec<String>>()
                                     .join("\n");
+        println!("{:*<80}", "");
+        println!("*{0:^padding$}*", self.name, padding=78);
+        println!("{:*<80}", "");
         write!(f, "Alphabet: {:?}
 States: {:?}
 Initial: {}

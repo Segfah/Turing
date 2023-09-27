@@ -1,0 +1,39 @@
+{
+	"name" : "0n1n",
+	"alphabet": ["1", "0", " ", "❤", "♥"],
+	"blank": " ",
+	"states": ["scan_0", "scan_1", "goback_0", "search_1", "no", "done"],
+	"initial": "scan_0",
+	"finals": [ "done" ],
+	"transitions": {
+		"scan_0": [
+			{ "read" : "0", "to_state": "scan_1", "write": "♥", "action": "RIGHT"},
+			{ "read" : "♥", "to_state": "scan_1", "write": " ", "action": "RIGHT"},
+			{ "read" : "❤", "to_state": "search_1", "write": "❤", "action": "RIGHT"},
+			{ "read" : "1", "to_state": "no", "write": "1", "action": "RIGHT"},
+			{ "read" : " ", "to_state": "no", "write": " ", "action": "RIGHT"}
+		],
+		"scan_1": [
+			{ "read" : "0", "to_state": "scan_1", "write": "0", "action": "RIGHT"},
+			{ "read" : "1", "to_state": "goback_0", "write": "❤", "action": "LEFT"},
+			{ "read" : "❤", "to_state": "scan_1", "write": "❤", "action": "RIGHT"},
+			{ "read" : " ", "to_state": "done", "write": "n", "action": "RIGHT"}
+		],
+		"goback_0": [
+			{ "read" : "0", "to_state": "goback_0", "write": "0", "action": "LEFT"},
+			{ "read" : "♥", "to_state": "scan_0", "write": "♥", "action": "RIGHT"},
+			{ "read" : "❤", "to_state": "goback_0", "write": "❤", "action": "LEFT"}
+		],
+		"search_1": [
+			{ "read" : "❤", "to_state": "search_1", "write": "❤", "action": "RIGHT"},
+			{ "read" : " ", "to_state": "done", "write": "y", "action": "RIGHT"},
+			{ "read" : "1", "to_state": "no", "write": "1", "action": "RIGHT"}
+		],
+		"no": [
+			{ "read" : "0", "to_state": "no", "write": "0", "action": "RIGHT"},
+			{ "read" : "1", "to_state": "no", "write": "1", "action": "RIGHT"},
+			{ "read" : "❤", "to_state": "no", "write": "❤", "action": "RIGHT"},
+			{ "read" : " ", "to_state": "done", "write": "n", "action": "RIGHT"}
+		]
+	}
+}

@@ -1,0 +1,58 @@
+{
+	"name" : "is_polindrome",
+	"alphabet": [ "a", "l", "c", " " ],
+	"blank" : " ",
+	"states" : [ "haveA", "haveL" ,"haveC", "matchA", "matchL" ,"matchC", "start", "done", "goback"],
+	"initial" : "start",
+	"finals" : [ "done" ],
+	"transitions" : {
+		"start": [
+			{ "read" : "a", "to_state": "haveA", "write": " ", "action": "RIGHT"},
+			{ "read" : "l", "to_state": "haveL", "write": " ", "action": "RIGHT"},
+			{ "read" : "c", "to_state": "haveC" , "write": " ", "action": "RIGHT" },
+			{ "read" : " ", "to_state": "done" , "write": "Y", "action": "RIGHT" }
+		],
+		"haveA": [
+			{ "read" : "a", "to_state": "haveA", "write": "a", "action": "RIGHT"},
+			{ "read" : "l", "to_state": "haveA", "write": "l", "action": "RIGHT"},
+			{ "read" : "c", "to_state": "haveA" , "write": "c", "action": "RIGHT" },
+			{ "read" : " ", "to_state": "matchA" , "write": " ", "action": "LEFT" }
+		],
+		"haveL": [
+			{ "read" : "a", "to_state": "haveL", "write": "a", "action": "RIGHT"},
+			{ "read" : "l", "to_state": "haveL", "write": "l", "action": "RIGHT"},
+			{ "read" : "c", "to_state": "haveL" , "write": "c", "action": "RIGHT" },
+			{ "read" : " ", "to_state": "matchL" , "write": " ", "action": "LEFT" }
+		],
+		"haveC": [
+			{ "read" : "a", "to_state": "haveC", "write": "a", "action": "RIGHT"},
+			{ "read" : "l", "to_state": "haveC", "write": "l", "action": "RIGHT"},
+			{ "read" : "c", "to_state": "haveC" , "write": "c", "action": "RIGHT" },
+			{ "read" : " ", "to_state": "matchC" , "write": " ", "action": "LEFT" }
+		],
+		"matchA": [
+			{ "read" : "a", "to_state": "goback", "write": " ", "action": "LEFT"},
+			{ "read" : "l", "to_state": "done", "write": "n", "action": "RIGHT"},
+			{ "read" : "c", "to_state": "done" , "write": "n", "action": "RIGHT" },
+			{ "read" : " ", "to_state": "done" , "write": "y", "action": "RIGHT" }
+		],
+		"matchL": [
+			{ "read" : "a", "to_state": "done", "write": "n", "action": "RIGHT"},
+			{ "read" : "l", "to_state": "goback", "write": " ", "action": "LEFT"},
+			{ "read" : "c", "to_state": "done" , "write": "n", "action": "RIGHT" },
+			{ "read" : " ", "to_state": "done" , "write": "y", "action": "RIGHT" }
+		],
+		"matchC": [
+			{ "read" : "a", "to_state": "done", "write": "n", "action": "RIGHT"},
+			{ "read" : "l", "to_state": "done", "write": "n", "action": "RIGHT"},
+			{ "read" : "c", "to_state": "goback" , "write": " ", "action": "LEFT" },
+			{ "read" : " ", "to_state": "done" , "write": "y", "action": "RIGHT" }
+		],
+		"goback": [
+			{ "read" : "a", "to_state": "goback", "write": "a", "action": "LEFT"},
+			{ "read" : "l", "to_state": "goback", "write": "l", "action": "LEFT"},
+			{ "read" : "c", "to_state": "goback" , "write": "c", "action": "LEFT" },
+			{ "read" : " ", "to_state": "start" , "write": " ", "action": "RIGHT" }
+		]
+	}
+}

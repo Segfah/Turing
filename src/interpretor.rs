@@ -1,5 +1,6 @@
 
 use crate::colored::Colorize;
+use std::io::Write;
 
 pub struct TuringInterpret {
     pub config: crate::parse::TuringMachine,
@@ -59,9 +60,20 @@ impl TuringInterpret {
         let old_state = self.step();
         match (old_state, self.is_in_final()) {
             (Some(_), false) => { 
+                std::thread::sleep(std::time::Duration::from_millis(50));
+
+                #[cfg(feature = "animation")]
+                {
+                    std::io::stdout().flush();
+                    print!("\r{: <80}\r", "");
+                }
+                #[cfg(not(feature = "animation"))]
+                println!();
+
                 self.run();
             },
             (Some(_), true) => {
+                println!("");
                 println!("{:-^80}", " Finished ");
                 self.print_band(80);
             },
@@ -75,7 +87,7 @@ impl TuringInterpret {
     /// Print the whole step given the transition to perform.
     pub fn print_current_step(&self, transition: &crate::parse::Transition) {
         self.print_band(13);
-        println!(
+        print!(
             "({}, {}) -> ({}, {}, {:?})",
             self.state,
             transition.read,
@@ -103,7 +115,7 @@ impl TuringInterpret {
         print!("[");
         print!("{}", self.config.blank.to_string().repeat(lpadding - left.len()));
         left.iter().enumerate().for_each(|elem| print!("{}", elem.1));
-        print!("{}", format!("{}", self.band[self.offset]).red());
+        print!("{}", format!("{}", self.band[self.offset]).on_red());
         right.iter().enumerate().for_each(|elem| print!("{}", elem.1));
         print!("{}", self.config.blank.to_string().repeat(rpadding - right.len()));
         print!("] ");
@@ -113,3 +125,4 @@ impl TuringInterpret {
         self.config.finals.contains(&self.state)
     }
 }
+

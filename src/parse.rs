@@ -128,7 +128,7 @@ impl fmt::Display for ConfigErr {
 /// que contenga el valor o el error de análisis
 pub fn load_config_json() -> Result<TuringMachine, ConfigErr> {
     let env: Vec<String> = std::env::args().collect();
-    match env.len().cmp(&2) {
+    match env.len().cmp(&3) {
         Ordering::Greater => return Err(ConfigErr::TooMuchArgument),
         Ordering::Less => return Err(ConfigErr::MissingArgument),
         _ => {}
@@ -162,4 +162,10 @@ pub fn parse_machine() -> Result<TuringMachine, ConfigErr> {
     machine.is_valid()?;
 
     Ok(machine)
+}
+
+pub fn parse_input() -> String {
+    let env_args: Vec<String> = std::env::args().collect();
+
+    return env_args[2].clone();
 }

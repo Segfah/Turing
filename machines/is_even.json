@@ -1,0 +1,18 @@
+{
+	"name" : "is_even",
+	"alphabet": [ "0", " " ],
+	"blank" : " ",
+	"states" : [ "odd", "even", "done" ],
+	"initial" : "even",
+	"finals" : [ "done" ],
+	"transitions" : {
+		"odd": [
+			{ "read" : "0", "to_state": "even", "write": " ", "action": "RIGHT"},
+			{ "read" : " ", "to_state": "done" , "write": "n", "action": "RIGHT" }
+		],
+		"even": [
+			{ "read" : "0", "to_state": "odd", "write": " ", "action": "RIGHT"},
+			{ "read" : " ", "to_state": "done" , "write": "y", "action": "RIGHT"}
+		]
+	}
+}

@@ -20,17 +20,18 @@ impl TuringInterpret {
         }
     }
 
-    /// Execute the next state transition, returning the new state or None
+    /// Execute the next state transition, returning the old state or None
     pub fn step(&mut self) -> Option<String> {
         // Look for existing transition
-        let transition = self.config
-            .transitions[&self.state]
+        let transition = self.config.transitions
+            .get(&self.state)?
             .iter()
             .find(|elem| elem.read == self.band[self.offset])?;
 
         self.print_current_step(&transition);
 
         self.band[self.offset] = transition.write;
+        let old_state = self.state.clone();
         self.state = transition.to_state.clone();
         match transition.action {
             crate::parse::Action::LEFT => {
@@ -47,12 +48,16 @@ impl TuringInterpret {
                 }
             },
         };
-        Some(self.state.clone())
+        Some(old_state)
     }
 
+    /// Execute steps until on final step is reached
+    /// If the machine doesn't provide a final step or never reach it
+    /// this can lead to an infinite loop and make the program panic due
+    /// to stack overflow
     pub fn run(&mut self) {
-        let new_state = self.step();
-        match (new_state, self.is_in_final()) {
+        let old_state = self.step();
+        match (old_state, self.is_in_final()) {
             (Some(_), false) => { 
                 self.run();
             },
@@ -61,7 +66,8 @@ impl TuringInterpret {
                 self.print_band(80);
             },
             (None, _) => {
-                todo!()
+                println!("{:-^80}", " Finished ");
+                self.print_band(80);
             },
         }
     }

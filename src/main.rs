@@ -12,11 +12,9 @@ fn main() {
     match config {
         Ok(machine) => {
             println!("{}\n{:=<80}", machine, "");
-            let mut emulator = interpretor::TuringInterpret::new(machine, input);
+            let mut emulator = interpretor::TuringInterpret::new(machine, input.clone());
+            println!("[{0:^padding$}]", input, padding=78);
             emulator.run();
-            //(0..20).for_each(|elem| {
-            //    emulator.step();
-            //})
         },
         Err(err) => eprintln!("{}", err)
     }

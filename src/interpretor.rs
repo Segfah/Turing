@@ -13,10 +13,13 @@ impl TuringInterpret {
     /// Create a machine interpretor given the input and it's configuration
     pub fn new(machine: crate::parse::TuringMachine, input: String) -> Self {
         let initial = machine.initial.clone();
+        let mut band: Vec<char> = input.chars().collect();
+        if band.len() == 0 { band.push(machine.blank); }
+
         Self {
             config: machine,
             state: initial,
-            band: input.chars().collect(),
+            band: band,
             offset: 0
         }
     }

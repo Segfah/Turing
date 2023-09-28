@@ -2,6 +2,8 @@
 use crate::colored::Colorize;
 use std::io::Write;
 
+use crate::parse::Transition;
+
 pub struct TuringInterpret {
     pub config: crate::parse::TuringMachine,
     pub state:  String,
@@ -27,10 +29,12 @@ impl TuringInterpret {
     /// Execute the next state transition, returning the old state or None
     pub fn step(&mut self) -> Option<String> {
         // Look for existing transition
-        let transition = self.config.transitions
-            .get(&self.state)?
-            .iter()
-            .find(|elem| elem.read == self.band[self.offset])?;
+        let find_transition = |elem: &&Transition| elem.read == self.band[self.offset];
+        let transition = self.config
+                             .transitions
+                             .get(&self.state)?
+                             .iter()
+                             .find(find_transition)?;
 
         self.print_current_step(&transition);
 
@@ -67,7 +71,7 @@ impl TuringInterpret {
 
                 #[cfg(feature = "animation")]
                 {
-                    std::io::stdout().flush();
+                    std::io::stdout().flush().expect("Couldn't flush stdout");
                     print!("\r{: <80}\r", "");
                 }
                 #[cfg(not(feature = "animation"))]

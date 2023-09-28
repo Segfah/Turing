@@ -1,6 +1,6 @@
 {
 	"name" : "0n1n",
-	"alphabet": ["1", "0", " ", "❤", "♥"],
+	"alphabet": ["1", "0", " ", "❤", "♥", "n", "y"],
 	"blank": " ",
 	"states": ["scan_0", "scan_1", "goback_0", "search_1", "no", "done"],
 	"initial": "scan_0",

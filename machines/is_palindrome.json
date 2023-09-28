@@ -1,6 +1,6 @@
 {
 	"name" : "is_polindrome",
-	"alphabet": [ "a", "l", "c", " " ],
+	"alphabet": [ "a", "l", "c", " ", "y", "n"],
 	"blank" : " ",
 	"states" : [ "haveA", "haveL" ,"haveC", "matchA", "matchL" ,"matchC", "start", "done", "goback"],
 	"initial" : "start",
@@ -10,7 +10,7 @@
 			{ "read" : "a", "to_state": "haveA", "write": " ", "action": "RIGHT"},
 			{ "read" : "l", "to_state": "haveL", "write": " ", "action": "RIGHT"},
 			{ "read" : "c", "to_state": "haveC" , "write": " ", "action": "RIGHT" },
-			{ "read" : " ", "to_state": "done" , "write": "Y", "action": "RIGHT" }
+			{ "read" : " ", "to_state": "done" , "write": "y", "action": "RIGHT" }
 		],
 		"haveA": [
 			{ "read" : "a", "to_state": "haveA", "write": "a", "action": "RIGHT"},

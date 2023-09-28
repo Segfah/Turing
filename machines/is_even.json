@@ -1,6 +1,6 @@
 {
 	"name" : "is_even",
-	"alphabet": [ "0", " " ],
+	"alphabet": [ "0", " ", "n", "y"],
 	"blank" : " ",
 	"states" : [ "odd", "even", "done" ],
 	"initial" : "even",

@@ -61,6 +61,7 @@ Please verify each transitions")));
     /// inside the alphabet and the states respectively
     pub fn validate_transition(&self, transition: &Transition) -> bool {
         self.alphabet.contains(&transition.read)
+            && self.alphabet.contains(&transition.write)
             && self.states.contains(&transition.to_state)
     }
 }

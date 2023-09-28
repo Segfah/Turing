@@ -89,8 +89,10 @@ impl TuringInterpret {
 
     /// Print the whole step given the transition to perform.
     pub fn print_current_step(&self, transition: &crate::parse::Transition) {
-        self.print_band(13);
-        print!(
+        let band_length = 13;
+        self.print_band(band_length);
+
+        let fmt_transition = format!(
             "({}, {}) -> ({}, {}, {:?})",
             self.state,
             transition.read,
@@ -98,6 +100,7 @@ impl TuringInterpret {
             transition.write,
             transition.action
         );
+        print!("{0:.precision$}", fmt_transition, precision=80 - band_length);
     }
 
     /// Print the current band state, highlighting current offset

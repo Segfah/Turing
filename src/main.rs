@@ -3,8 +3,9 @@
 extern crate colored;
 mod interpretor;
 mod parse;
-use clap::{Command, Arg};
 
+use clap::{Command, Arg};
+use interpretor::TuringInterpret;
 
 pub fn validate_args() {
     let _matches = Command::new("Turing")
@@ -23,15 +24,22 @@ fn main() {
     validate_args();
     let config = parse::parse_machine();
     let input = parse::parse_input();
-    //println!("Input: {}", input);
-    //let input = "111-11=".to_string();
+
     match config {
         Ok(machine) => {
             println!("{}\n{:=<80}", machine, "");
-            let mut emulator = interpretor::TuringInterpret::new(machine, input.clone());
-            println!("[{0:^padding$}]", input, padding=78);
+            println!("[{0:^padding$.78}]", input, padding=78);
             println!("{:=<80}", "");
-            emulator.run();
+
+            let valid_input = |elem: char| -> bool {
+                machine.alphabet.contains(&elem) };
+            if !input.chars().all(valid_input) {
+                eprintln!("Input contains illegal character");
+                eprintln!("Alphabet {:?}", machine.alphabet);
+                return ;
+            }
+
+            TuringInterpret::new(machine, input).run();
         },
         Err(err) => eprintln!("{}", err)
     }
